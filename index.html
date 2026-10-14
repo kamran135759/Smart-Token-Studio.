@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#e8f8ed">
+<title>Smart Token Studio | استودیوی هوشمند توکن</title>
+<style>
+:root {
+  --green: #16864b;
+  --green-dark: #116638;
+  --green-light: #e5f8eb;
+  --mint: #f3fcf5;
+  --text: #183b28;
+  --muted: #627568;
+  --border: #ccebd5;
+  --white: #ffffff;
+  --red: #b42318;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Tahoma, Arial, sans-serif;
+  background: linear-gradient(180deg, #e9f9ed 0%, #f8fdf9 42%, #effaf2 100%);
+  color: var(--text);
+  line-height: 1.9;
+}
+header {
+  padding: 24px 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #d6f5df, #f7fff8);
+  border-bottom: 1px solid var(--border);
+}
+.brand-icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 23px;
+  background: linear-gradient(145deg, #27a961, #116638);
+  box-shadow: 0 8px 22px #16864b2a;
+}
+.brand-icon svg { width: 48px; height: 48px; }
+h1 { margin: 4px 0; font-size: 25px; color: var(--green-dark); }
+.subtitle { color: var(--muted); font-size: 13px; }
+main { max-width: 760px; margin: auto; padding: 16px 12px 36px; }
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  margin: 14px 0;
+  box-shadow: 0 5px 18px #175a2c0a;
+}
+.card h2 { font-size: 18px; margin: 0 0 8px; color: var(--green-dark); }
+.help { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+label { display: block; font-weight: bold; font-size: 14px; margin: 10px 0 5px; }
+input, select, textarea {
+  display: block;
+  width: 100%;
+  min-height: 45px;
+  padding: 10px 12px;
+  border: 1px solid #c5dfcc;
+  border-radius: 11px;
+  background: #fbfffc;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+textarea { min-height: 220px; direction: ltr; text-align: left; font-family: monospace; }
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid #86d8a1;
+  border-color: var(--green);
+}
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+button, .link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--green);
+  border-radius: 11px;
+  background: var(--green);
+  color: white;
+  font: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+}
+button:hover, .link-button:hover { background: var(--green-dark); }
+button.secondary, .link-button.secondary {
+  color: var(--green-dark);
+  background: #effaf2;
+  border-color: #b9e4c5;
+}
+button:disabled { opacity: .5; cursor: not-allowed; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.actions > * { flex: 1 1 145px; }
+.status {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #effaf2;
+  border: 1px solid var(--border);
+  color: var(--green-dark);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  margin-top: 12px;
+}
+.status.error { background: #fff1f0; border-color: #f5c2bf; color: var(--red); }
+.status.warn { background: #fff9e8; border-color: #f1dfa4; color: #795b00; }
+.logo-area {
+  border: 2px dashed #91cda2;
+  border-radius: 18px;
+  background: #f5fcf6;
+  padding: 18px 12px;
+  text-align: center;
+}
+.logo-preview {
+  width: 180px;
+  height: 180px;
+  max-width: 100%;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #e3f6e8;
+  border: 1px solid #c5e9ce;
+  overflow: hidden;
+}
+.logo-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.logo-placeholder { color: #45845a; font-size: 13px; padding: 12px; }
+input[type="file"] { background: #fff; }
+.checkline { display: flex; align-items: flex-start; gap: 9px; font-weight: normal; }
+.checkline input { width: 18px; min-height: 18px; margin-top: 6px; }
+footer { text-align: center; padding: 20px 12px; color: var(--muted); font-size: 12px; }
+.small { font-size: 12px; color: var(--muted); }
+@media (max-width: 520px) {
+  h1 { font-size: 21px; }
+  .card { padding: 14px; }
+  .grid { grid-template-columns: 1fr; }
+  .logo-preview { width: 160px; height: 160px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand-icon" aria-label="لوگوی Smart Token Studio">
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 5 54 18v27L32 59 10 45V18L32 5Z" stroke="#fff" stroke-width="3"/>
+      <path d="m32 16 13 8v16l-13 8-13-8V24l13-8Z" stroke="#fff" stroke-width="3"/>
+      <path d="M25 32h14M32 25v14" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h1>Smart Token Studio</h1>
+  <div class="subtitle">استودیوی هوشمند ساخت و مدیریت توکن</div>
+  <div class="subtitle">ساده، روشن و مناسب استفاده با گوشی</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>۱. مشخصات توکن</h2>
+    <p class="help">اطلاعات توکنی را که می‌خواهی قراردادش ساخته شود وارد کن.</p>
+
+    <label for="tokenName">نام توکن</label>
+    <input id="tokenName" value="TOP1" maxlength="64" placeholder="مثلاً نام توکن">
+
+    <div class="grid">
+      <div>
+        <label for="tokenSymbol">نماد توکن</label>
+        <input id="tokenSymbol" value="TOP1" maxlength="16" placeholder="مثلاً TOP1">
+      </div>
+      <div>
+        <label for="tokenDecimals">تعداد رقم اعشار</label>
+        <select id="tokenDecimals">
+          <option value="18" selected>۱۸ رقم (استاندارد رایج)</option>
+          <option value="8">۸ رقم</option>
+          <option value="6">۶ رقم</option>
+          <option value="0">بدون اعشار</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="tokenSupply">مقدار کل عرضه</label>
+    <input id="tokenSupply" type="number" min="1" step="1" value="1000000" inputmode="numeric">
+    <p class="small">عدد عرضه را به‌صورت تعداد کامل توکن وارد کن؛ اعشار وارد نکن.</p>
+
+    <label for="network">شبکه‌ی هدف</label>
+    <select id="network">
+      <option value="56">BNB Smart Chain — شبکه اصلی</option>
+      <option value="97">BNB Smart Chain — شبکه آزمایشی</option>
+    </select>
+
+    <div class="actions">
+      <button id="generateButton">ساخت کد قرارداد</button>
+      <button id="resetButton" class="secondary">بازنشانی فرم</button>
+    </div>
+    <div id="formStatus" class="status">برای شروع، مشخصات توکن را بررسی و سپس «ساخت کد قرارداد» را انتخاب کن.</div>
+  </section>
+
+  <section class="card">
+    <h2>۲. لوگوی توکن</h2>
+    <p class="help">عکس را انتخاب کن؛ پیش‌نمایش آن همین‌جا نمایش داده می‌شود. برای لوگوی شفاف، PNG مربع مناسب است.</p>
+
+    <div class="logo-area">
+      <div class="logo-preview" id="logoPreview">
+        <div class="logo-placeholder" id="logoPlaceholder">پیش‌نمایش لوگو<br>عکس انتخاب‌شده اینجا دیده می‌شود</div>
+      </div>
+      <label for="logoFile">انتخاب تصویر لوگو</label>
+      <input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp">
+      <div class="small">پیشنهاد: تصویر مربع ۲۵۶×۲۵۶ یا ۵۱۲×۵۱۲ و حجم کمتر از ۱۰۰ کیلوبایت.</div>
+    </div>
+
+    <div class="actions">
+      <button id="downloadLogoButton" class="secondary" disabled>ذخیره لوگو با نام logo.png</button>
+      <button id="removeLogoButton" class="secondary">حذف تصویر انتخاب‌شده</button>
+    </div>
+    <div id="logoStatus" class="status">هنوز تصویری انتخاب نشده است.</div>
+  </section>
+
+  <section class="card">
+    <h2>۳. کد قرارداد هوشمند</h2>
+    <p class="help">پس از ساخت کد، می‌توانی آن را ببینی یا فایل Solidity را ذخیره کنی. ساخت کد به‌تنهایی به معنی ایجاد توکن روی بلاک‌چین نیست.</p>
+    <label for="solidityOutput">کد Solidity</label>
+    <textarea id="solidityOutput" spellcheck="false" readonly placeholder="کد قرارداد پس از زدن دکمه ساخت کد، اینجا نمایش داده می‌شود."></textarea>
+    <div class="actions">
+      <button id="copyCodeButton" class="secondary" disabled>کپی کد قرارداد</button>
+      <button id="downloadCodeButton" disabled>دریافت فایل TOP1.sol</button>
+      <a class="link-button secondary" href="https://remix.ethereum.org/" target="_blank" rel="noopener noreferrer">باز کردن Remix</a>
+    </div>
+    <div id="codeStatus" class="status">ابتدا مشخصات توکن را وارد و کد قرارداد را بساز.</div>
+  </section>
+
+  <section class="card">
+    <h2>۴. اتصال کیف پول و اطلاعات قرارداد</h2>
+    <p class="help">اتصال کیف پول فقط وقتی ممکن است که کیف پول مرورگر یا برنامه‌ی بازشده، اتصال وب را پشتیبانی کند. این بخش خودش قرارداد را مستقر نمی‌کند.</p>
+    <label for="contractAddress">آدرس قرارداد مستقرشده</label>
+    <input id="contractAddress" dir="ltr" placeholder="0x...">
+    <div class="actions">
+      <button id="connectButton">اتصال کیف پول</button>
+      <button id="checkWalletButton" class="secondary">بررسی اتصال</button>
+      <button id="readContractButton" class="secondary">خواندن اطلاعات قرارداد</button>
+    </div>
+    <div id="walletStatus" class="status">کیف پول هنوز بررسی نشده است.</div>
+    <div id="contractStatus" class="status">برای خواندن اطلاعات، آدرس یک قرارداد معتبر را وارد کن.</div>
+    <div id="contractDetails" class="small"></div>
+  </section>
+
+  <section class="card">
+    <h2>۵. لینک‌های بررسی و راهنمای ثبت لوگو</h2>
+    <p class="help">بعد از استقرار قرارداد، آدرس واقعی آن را وارد کن و از لینک‌های زیر برای بررسی استفاده کن. نمایش لوگو در کیف پول‌ها به فرایندهای مستقل آن‌ها بستگی دارد.</p>
+    <div class="actions">
+      <button id="openExplorerButton" class="secondary">باز کردن مرورگر بلاک‌چین</button>
+      <button id="openVerifyButton" class="secondary">صفحه تأیید سورس کد</button>
+      <button id="downloadInfoButton" class="secondary">دریافت پیش‌نویس اطلاعات توکن</button>
+    </div>
+    <div id="infoStatus" class="status">اطلاعات دانلودی پیش‌نویس است و به‌معنای ثبت خودکار لوگو نیست.</div>
+  </section>
+
+  <section class="card">
+    <h2>۶. چک‌لیست پیش از انتشار</h2>
+    <label class="checkline"><input type="checkbox"> نام، نماد، اعشار و عرضه را دوباره بررسی کردم.</label>
+    <label class="checkline"><input type="checkbox"> کد قرارداد را بازبینی و روی شبکه آزمایشی امتحان کردم.</label>
+    <label class="checkline"><input type="checkbox"> آدرس شبکه و هزینه تراکنش را پیش از تأیید بررسی کردم.</label>
+    <label class="checkline"><input type="checkbox"> می‌دانم ثبت لوگو و تأیید قرارداد ممکن است نیاز به اقدام جداگانه داشته باشد.</label>
+  </section>
+</main>
+
+<footer>Smart Token Studio — ابزار آماده‌سازی کد و اطلاعات توکن</footer>
+</body>
+      </html>
+      
+// ===== بخش ۲: توابع اصلی برنامه =====
+<script>
+"use strict";
+
+const $ = (id) => document.getElementById(id);
+
+let selectedLogoFile = null;
+let selectedLogoUrl = null;
+let generatedContract = "";
+
+const NETWORKS = {
+  "56": {
+    name: "BNB Smart Chain",
+    explorer: "https://bscscan.com",
+    verify: "https://bscscan.com/verifyContract"
+  },
+  "97": {
+    name: "BNB Testnet",
+    explorer: "https://testnet.bscscan.com",
+    verify: "https://testnet.bscscan.com/verifyContract"
+  }
+};
+
+function showStatus(id, message, type = "ok") {
+  const el = $(id);
+  el.textContent = message;
+  el.className = "status" + (type === "error" ? " error" : type === "warn" ? " warn" : "");
+}
+
+function getTokenConfig() {
+  const name = $("tokenName").value.trim();
+  const symbol = $("tokenSymbol").value.trim();
+  const decimals = Number($("tokenDecimals").value);
+  const supplyText = $("tokenSupply").value.trim();
+  const chainId = $("network").value;
+
+  if (!name || name.length > 64) {
+    throw new Error("نام توکن را وارد کن؛ حداکثر ۶۴ نویسه.");
+  }
+  if (!/^[A-Za-z0-9._-]{1,16}$/.test(symbol)) {
+    throw new Error("نماد را با حروف انگلیسی، عدد، نقطه، خط تیره یا زیرخط وارد کن؛ حداکثر ۱۶ نویسه.");
+  }
+  if (!/^[1-9][0-9]*$/.test(supplyText)) {
+    throw new Error("عرضه باید یک عدد صحیح مثبت و بدون اعشار باشد.");
+  }
+
+  const supply = BigInt(supplyText);
+  const baseUnits = supply * (10n ** BigInt(decimals));
+  const maxUint256 = (1n << 256n) - 1n;
+
+  if (baseUnits > maxUint256) {
+    throw new Error("مقدار عرضه با تعداد اعشار انتخاب‌شده بیش از ظرفیت قرارداد است.");
+  }
+
+  return { name, symbol, decimals, supply, baseUnits, chainId };
+}
+
+function escapeSolidityString(value) {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
+}
+
+function createSolidity(config) {
+  const name = escapeSolidityString(config.name);
+  const symbol = escapeSolidityString(config.symbol);
+
+  return `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+/**
+ * @title ${config.name.replace(/\*\//g, "* /")}
+ * @notice توکن با عرضه ثابت؛ تابع ضرب توکن جدید در این قرارداد وجود ندارد.
+ * @dev عرضه و اعشار هنگام ساخت قرارداد تعیین می‌شوند.
+ */
+contract SmartToken {
+    string public name = "${name}";
+    string public symbol = "${symbol}";
+    uint8 public constant decimals = ${config.decimals};
+    uint256 public constant totalSupply = ${config.baseUnits};
+
+    mapping(address => uint256) private balances;
+    mapping(address => mapping(address => uint256)) private allowances;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    constructor() {
+        balances[msg.sender] = totalSupply;
+        emit Transfer(address(0), msg.sender, totalSupply);
+    }
+
+    function balanceOf(address account) external view returns (uint256) {
+        return balances[account];
+    }
+
+    function allowance(address owner, address spender) external view returns (uint256) {
+        return allowances[owner][spender];
+    }
+
+    function transfer(address to, uint256 amount) external returns (bool) {
+        require(to != address(0), "Invalid recipient");
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+        emit Transfer(msg.sender, to, amount);
+        return true;
+    }
+
+    function approve(address spender, uint256 amount) external returns (bool) {
+        require(spender != address(0), "Invalid spender");
+        allowances[msg.sender][spender] = amount;
+        emit Approval(msg.sender, spender, amount);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) external returns (bool) {
+        require(from != address(0) && to != address(0), "Invalid address");
+        require(balances[from] >= amount, "Insufficient balance");
+
+        uint256 permitted = allowances[from][msg.sender];
+        require(permitted >= amount, "Allowance exceeded");
+
+        allowances[from][msg.sender] = permitted - amount;
+        balances[from] -= amount;
+        balances[to] += amount;
+
+        emit Transfer(from, to, amount);
+        emit Approval(from, msg.sender, allowances[from][msg.sender]);
+        return true;
+    }
+}`;
+}
+
+function downloadBlob(filename, blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function generateContract() {
+  try {
+    const config = getTokenConfig();
+    generatedContract = createSolidity(config);
+    $("solidityOutput").value = generatedContract;
+    $("copyCodeButton").disabled = false;
+    $("downloadCodeButton").disabled = false;
+
+    showStatus(
+      "formStatus",
+      `مشخصات بررسی شد. نام: ${config.name} | نماد: ${config.symbol} | عرضه: ${config.supply.toString()} | اعشار: ${config.decimals}`
+    );
+    showStatus("codeStatus", "کد قرارداد ساخته شد. هنوز روی بلاک‌چین مستقر نشده است.");
+  } catch (error) {
+    showStatus("formStatus", error.message || "بررسی مشخصات ناموفق بود.", "error");
+  }
+}
+
+// ===== پیش‌نمایش تصویر لوگوی انتخاب‌شده =====
+function clearLogo() {
+  if (selectedLogoUrl) URL.revokeObjectURL(selectedLogoUrl);
+  selectedLogoUrl = null;
+  selectedLogoFile = null;
+
+  $("logoFile").value = "";
+  $("logoPreview").replaceChildren();
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "logo-placeholder";
+  placeholder.textContent = "پیش‌نمایش لوگو؛ عکس انتخاب‌شده اینجا دیده می‌شود";
+  $("logoPreview").appendChild(placeholder);
+
+  $("downloadLogoButton").disabled = true;
+  showStatus("logoStatus", "تصویر انتخاب‌شده حذف شد.");
+}
+
+function handleLogoSelection(file) {
+  if (!file) return;
+
+  const allowed = ["image/png", "image/jpeg", "image/webp"];
+  if (!allowed.includes(file.type)) {
+    clearLogo();
+    showStatus("logoStatus", "فرمت فایل پشتیبانی نمی‌شود. یک تصویر PNG، JPG یا WebP انتخاب کن.", "error");
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    clearLogo();
+    showStatus("logoStatus", "حجم تصویر بیشتر از ۵ مگابایت است. یک تصویر کوچک‌تر انتخاب کن.", "error");
+    return;
+  }
+
+  const temporaryUrl = URL.createObjectURL(file);
+  const image = new Image();
+
+  image.onload = () => {
+    if (!image.naturalWidth || !image.naturalHeight) {
+      URL.revokeObjectURL(temporaryUrl);
+      showStatus("logoStatus", "خواندن تصویر ممکن نشد؛ تصویر دیگری انتخاب کن.", "error");
+      return;
+    }
+
+    if (selectedLogoUrl) URL.revokeObjectURL(selectedLogoUrl);
+    selectedLogoUrl = temporaryUrl;
+    selectedLogoFile = file;
+
+    const preview = document.createElement("img");
+    preview.src = selectedLogoUrl;
+    preview.alt = "پیش‌نمایش لوگوی انتخاب‌شده";
+    $("logoPreview").replaceChildren(preview);
+
+    $("downloadLogoButton").disabled = false;
+
+    const square = image.naturalWidth === image.naturalHeight;
+    showStatus(
+      "logoStatus",
+      `لوگو نمایش داده شد. اندازه: ${image.naturalWidth}×${image.naturalHeight} پیکسل. ${square ? "تصویر مربع است." : "برای نمایش بهتر در کیف پول‌ها، تصویر مربع پیشنهاد می‌شود."}`
+        + (file.size > 100 * 1024 ? " حجم فعلی بیش از ۱۰۰ کیلوبایت است." : " حجم فایل کمتر از ۱۰۰ کیلوبایت است."),
+      square && file.size <= 100 * 1024 ? "ok" : "warn"
+    );
+  };
+
+  image.onerror = () => {
+    URL.revokeObjectURL(temporaryUrl);
+    showStatus("logoStatus", "تصویر باز نشد. لطفاً فایل دیگری را امتحان کن.", "error");
+  };
+
+  image.src = temporaryUrl;
+}
+
+// تصویر انتخابی را به PNG واقعی تبدیل می‌کند تا پسوند فایل درست باشد.
+function downloadLogoAsPng() {
+  if (!selectedLogoUrl) {
+    showStatus("logoStatus", "ابتدا یک تصویر انتخاب کن.", "error");
+    return;
+  }
+
+  const image = new Image();
+  image.onload = () => {
+    const size = 256;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, size, size);
+
+    const scale = Math.min(size / image.width, size / image.height);
+    const width = Math.round(image.width * scale);
+    const height = Math.round(image.height * scale);
+    const x = Math.round((size - width) / 2);
+    const y = Math.round((size - height) / 2);
+
+    context.drawImage(image, x, y, width, height);
+
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        showStatus("logoStatus", "ساخت فایل PNG ناموفق بود.", "error");
+        return;
+      }
+      downloadBlob("logo.png", blob);
+      showStatus("logoStatus", "فایل PNG با نام logo.png آماده‌ی ذخیره شد. پیش از ثبت، حجم فایل را بررسی کن.");
+    }, "image/png");
+  };
+  image.onerror = () => showStatus("logoStatus", "ساخت فایل لوگو ناموفق بود.", "error");
+  image.src = selectedLogoUrl;
+}
+</script>
+
+// ===== بخش ۳: اتصال دکمه‌ها و تکمیل برنامه =====
+<script>
+function getContractAddress() {
+  const address = $("contractAddress").value.trim();
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("آدرس قرارداد باید یک آدرس معتبر ۰x با ۴۰ رقم هگزادسیمال باشد.");
+  }
+  return address;
+}
+
+async function copyText(value) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+  const area = document.createElement("textarea");
+  area.value = value;
+  area.style.position = "fixed";
+  area.style.opacity = "0";
+  document.body.appendChild(area);
+  area.select();
+  const success = document.execCommand("copy");
+  area.remove();
+  if (!success) throw new Error("کپی خودکار انجام نشد؛ متن را انتخاب و دستی کپی کن.");
+}
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    showStatus(
+      "walletStatus",
+      "کیف پولی در این مرورگر شناسایی نشد. صفحه را از مرورگر داخلی کیف پول باز کن یا از گزینه‌های دیگر استفاده کن.",
+      "warn"
+    );
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
+
+    if (!accounts || !accounts.length) {
+      throw new Error("کیف پول حسابی برای اتصال برنگرداند.");
+    }
+
+    const chainHex = await window.ethereum.request({ method: "eth_chainId" });
+    const chainId = parseInt(chainHex, 16);
+    const selected = $("network").value;
+    const networkName = NETWORKS[String(chainId)]?.name || "شبکه ناشناس";
+
+    showStatus(
+      "walletStatus",
+      `کیف پول متصل است: ${accounts[0]} | شبکه فعلی: ${networkName} (${chainId})`
+        + (String(chainId) === selected ? " | شبکه انتخابی با کیف پول مطابقت دارد." : " | هشدار: شبکه انتخابی برنامه با شبکه کیف پول متفاوت است."),
+      String(chainId) === selected ? "ok" : "warn"
+    );
+  } catch (error) {
+    showStatus("walletStatus", error.message || "اتصال کیف پول انجام نشد.", "error");
+  }
+}
+
+async function checkWallet() {
+  if (!window.ethereum) {
+    showStatus("walletStatus", "کیف پول وب در این مرورگر شناسایی نشد.", "warn");
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({ method: "eth_accounts" });
+    const chainHex = await window.ethereum.request({ method: "eth_chainId" });
+    const chainId = parseInt(chainHex, 16);
+
+    if (!accounts.length) {
+      showStatus("walletStatus", "هنوز حسابی متصل نیست. دکمه «اتصال کیف پول» را بزن.", "warn");
+      return;
+    }
+
+    showStatus(
+      "walletStatus",
+      `حساب: ${accounts[0]} | شبکه: ${NETWORKS[String(chainId)]?.name || "ناشناس"} (${chainId})`
+    );
+  } catch (error) {
+    showStatus("walletStatus", error.message || "بررسی اتصال ناموفق بود.", "error");
+  }
+}
+
+function decodeAbiString(hex) {
+  const data = hex.startsWith("0x") ? hex.slice(2) : hex;
+  if (!data || data.length < 128) return "(قابل خواندن نیست)";
+  const length = Number(BigInt("0x" + data.slice(64, 128)));
+  if (!Number.isSafeInteger(length) || length < 0 || length > 4096) {
+    return "(قابل خواندن نیست)";
+  }
+  const raw = data.slice(128, 128 + length * 2);
+  const bytes = new Uint8Array(raw.match(/.{2}/g)?.map(x => parseInt(x, 16)) || []);
+  return new TextDecoder().decode(bytes);
+}
+
+async function rpcCall(rpc, method, params) {
+  const response = await fetch(rpc, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method,
+      params
+    })
+  });
+
+  if (!response.ok) throw new Error("ارتباط با سرویس شبکه ناموفق بود.");
+  const result = await response.json();
+  if (result.error) throw new Error(result.error.message || "خطای RPC");
+  return result.result;
+}
+
+async function readContractInfo() {
+  try {
+    const address = getContractAddress();
+    const chainId = $("network").value;
+    const rpc = chainId === "97"
+      ? "https://data-seed-prebsc-1-s1.bnbchain.org:8545"
+      : "https://bsc-dataseed.bnbchain.org";
+
+    showStatus("contractStatus", "در حال خواندن اطلاعات قرارداد از شبکه…");
+
+    const calls = [
+      ["نام", "0x06fdde03"],
+      ["نماد", "0x95d89b41"],
+      ["اعشار", "0x313ce567"],
+      ["عرضه کل", "0x18160ddd"]
+    ];
+
+    const results = await Promise.all(
+      calls.map(async ([label, data]) => {
+        const value = await rpcCall(rpc, "eth_call", [{ to: address, data }, "latest"]);
+        return { label, value };
+      })
+    );
+
+    const name = decodeAbiString(results[0].value);
+    const symbol = decodeAbiString(results[1].value);
+    const decimals = Number(BigInt(results[2].value));
+    const supply = BigInt(results[3].value);
+    const formattedSupply = decimals <= 255
+      ? (Number(supply / (10n ** BigInt(decimals))).toLocaleString("en-US")
+        + (supply % (10n ** BigInt(decimals)) !== 0n
+          ? "." + (supply % (10n ** BigInt(decimals))).toString().padStart(decimals, "0").replace(/0+$/, "")
+          : ""))
+      : supply.toString();
+
+    $("contractDetails").textContent =
+      `نام: ${name} | نماد: ${symbol} | اعشار: ${decimals} | عرضه کل: ${formattedSupply}`;
+
+    showStatus(
+      "contractStatus",
+      "اطلاعات خوانده شد. این نتیجه به‌تنهایی تأیید امنیت قرارداد یا ارزش توکن نیست."
+    );
+  } catch (error) {
+    showStatus("contractStatus", error.message || "خواندن قرارداد ناموفق بود.", "error");
+  }
+}
+
+function openExplorer() {
+  try {
+    const address = getContractAddress();
+    const network = NETWORKS[$("network").value];
+    window.open(network.explorer + "/address/" + address, "_blank", "noopener,noreferrer");
+  } catch (error) {
+    showStatus("contractStatus", error.message, "error");
+  }
+}
+
+function openVerifyPage() {
+  try {
+    const address = getContractAddress();
+    const network = NETWORKS[$("network").value];
+    window.open(
+      network.verify + "?a=" + encodeURIComponent(address),
+      "_blank",
+      "noopener,noreferrer"
+    );
+  } catch (error) {
+    showStatus("contractStatus", error.message, "error");
+  }
+}
+
+function downloadInfo() {
+  try {
+    const config = getTokenConfig();
+    const address = $("contractAddress").value.trim();
+    const info = {
+      app: "Smart Token Studio",
+      name: config.name,
+      symbol: config.symbol,
+      decimals: config.decimals,
+      supply: config.supply.toString(),
+      chainId: Number(config.chainId),
+      network: NETWORKS[config.chainId].name,
+      contractAddress: address || null,
+      logoFile: selectedLogoFile ? "logo.png" : null,
+      status: "Draft - not automatically registered",
+      note: "این فایل پیش‌نویس است. ثبت لوگو، استقرار قرارداد و تأیید سورس کد جداگانه انجام می‌شود."
+    };
+
+    downloadBlob(
+      "token-info.json",
+      new Blob([JSON.stringify(info, null, 2)], { type: "application/json;charset=utf-8" })
+    );
+    showStatus("infoStatus", "فایل پیش‌نویس token-info.json آماده شد.");
+  } catch (error) {
+    showStatus("infoStatus", error.message || "ساخت فایل اطلاعات ناموفق بود.", "error");
+  }
+}
+
+$("generateButton").addEventListener("click", generateContract);
+
+$("resetButton").addEventListener("click", () => {
+  $("tokenName").value = "TOP1";
+  $("tokenSymbol").value = "TOP1";
+  $("tokenDecimals").value = "18";
+  $("tokenSupply").value = "1000000";
+  $("network").value = "56";
+  $("solidityOutput").value = "";
+  generatedContract = "";
+  $("copyCodeButton").disabled = true;
+  $("downloadCodeButton").disabled = true;
+  $("contractAddress").value = "";
+  $("contractDetails").textContent = "";
+  clearLogo();
+  showStatus("formStatus", "فرم به مقادیر اولیه بازگشت.");
+  showStatus("codeStatus", "برای ساخت کد، دکمه «ساخت کد قرارداد» را بزن.");
+  showStatus("contractStatus", "برای خواندن اطلاعات، آدرس قرارداد را وارد کن.");
+});
+
+$("logoFile").addEventListener("change", (event) => {
+  handleLogoSelection(event.target.files?.[0]);
+});
+
+$("downloadLogoButton").addEventListener("click", downloadLogoAsPng);
+$("removeLogoButton").addEventListener("click", clearLogo);
+
+$("copyCodeButton").addEventListener("click", async () => {
+  if (!generatedContract) return;
+  try {
+    await copyText(generatedContract);
+    showStatus("codeStatus", "کد قرارداد کپی شد.");
+  } catch (error) {
+    showStatus("codeStatus", error.message || "کپی کد انجام نشد.", "error");
+  }
+});
+
+$("downloadCodeButton").addEventListener("click", () => {
+  if (!generatedContract) return;
+  downloadBlob(
+    "SmartToken.sol",
+    new Blob([generatedContract], { type: "text/plain;charset=utf-8" })
+  );
+  showStatus("codeStatus", "فایل SmartToken.sol آماده‌ی ذخیره است.");
+});
+
+$("connectButton").addEventListener("click", connectWallet);
+$("checkWalletButton").addEventListener("click", checkWallet);
+$("readContractButton").addEventListener("click", readContractInfo);
+$("openExplorerButton").addEventListener("click", openExplorer);
+$("openVerifyButton").addEventListener("click", openVerifyPage);
+$("downloadInfoButton").addEventListener("click", downloadInfo);
+
+// تغییر شبکه در فرم، شبکه‌ی کیف پول را خودکار تغییر نمی‌دهد.
+$("network").addEventListener("change", () => {
+  showStatus(
+    "walletStatus",
+    "شبکه‌ی هدف برنامه تغییر کرد. اگر کیف پول متصل است، شبکه‌ی انتخابی را در خود کیف پول هم بررسی کن.",
+    "warn"
+  );
+});
+</script>
+</body>
+</html>
